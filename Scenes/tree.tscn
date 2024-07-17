@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=3 uid="uid://xuertio57ba5"]
+
+[ext_resource type="Texture2D" uid="uid://buvgn5hfduxpa" path="res://Sprites/tree.png" id="1_gt0sl"]
+[ext_resource type="Shader" path="res://Shaders/tree.gdshader" id="1_naml8"]
+[ext_resource type="Script" path="res://Scripts/tree.gd" id="3_5ssd8"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_028oa"]
+shader = ExtResource("1_naml8")
+shader_parameter/speed = 1.045
+shader_parameter/minStrength = 0.18
+shader_parameter/maxStrength = 0.06
+shader_parameter/strengthScale = 100.0
+shader_parameter/interval = 3.5
+shader_parameter/detail = 1.0
+shader_parameter/distortion = null
+shader_parameter/heightOffset = null
+shader_parameter/offset = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwk0b"]
+size = Vector2(40, 48)
+
+[node name="Tree" type="Sprite2D"]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_028oa")
+texture = ExtResource("1_gt0sl")
+script = ExtResource("3_5ssd8")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+position = Vector2(-3, 40)
+shape = SubResource("RectangleShape2D_dwk0b")
