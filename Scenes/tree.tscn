@@ -1,8 +1,9 @@
-[gd_scene load_steps=6 format=3 uid="uid://xuertio57ba5"]
+[gd_scene load_steps=7 format=3 uid="uid://xuertio57ba5"]
 
 [ext_resource type="Texture2D" uid="uid://buvgn5hfduxpa" path="res://Sprites/tree.png" id="1_gt0sl"]
 [ext_resource type="Shader" path="res://Shaders/tree.gdshader" id="1_naml8"]
 [ext_resource type="Script" path="res://Scripts/tree.gd" id="3_5ssd8"]
+[ext_resource type="PackedScene" uid="uid://kaqdvuaks3ve" path="res://Scenes/shadow.tscn" id="4_3cvqy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_028oa"]
 shader = ExtResource("1_naml8")
@@ -16,8 +17,9 @@ shader_parameter/distortion = null
 shader_parameter/heightOffset = null
 shader_parameter/offset = 0.0
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_dwk0b"]
-size = Vector2(40, 48)
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_ucmdr"]
+radius = 12.0
+height = 34.0
 
 [node name="Tree" type="Sprite2D"]
 y_sort_enabled = true
@@ -25,8 +27,16 @@ material = SubResource("ShaderMaterial_028oa")
 texture = ExtResource("1_gt0sl")
 script = ExtResource("3_5ssd8")
 
+[node name="Shadow" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("4_3cvqy")]
+scale = Vector2(1, 1)
+texture = ExtResource("1_gt0sl")
+sprite = NodePath("..")
+shadow_scale = 0.5
+
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(-3, 40)
-shape = SubResource("RectangleShape2D_dwk0b")
+position = Vector2(-2, 30)
+shape = SubResource("CapsuleShape2D_ucmdr")

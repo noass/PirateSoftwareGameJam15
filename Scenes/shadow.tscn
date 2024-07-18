@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://kaqdvuaks3ve"]
+
+[ext_resource type="Texture2D" uid="uid://b7dicn3qtcdds" path="res://Sprites/playerAnimt.png" id="1_2d0da"]
+[ext_resource type="Shader" path="res://Shaders/shadow.gdshader" id="1_ju35r"]
+[ext_resource type="Script" path="res://Scripts/shadow.gd" id="2_06s7x"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v5sl7"]
+shader = ExtResource("1_ju35r")
+shader_parameter/shadow_color = Color(0, 0, 0, 1)
+shader_parameter/shadow_modifier = 1.0
+shader_parameter/shadow_opacity = 0.5
+shader_parameter/blur_size = 1.035
+
+[node name="Shadow" type="Sprite2D"]
+z_index = -1
+material = SubResource("ShaderMaterial_v5sl7")
+scale = Vector2(1, 0.5)
+texture = ExtResource("1_2d0da")
+flip_v = true
+hframes = 22
+script = ExtResource("2_06s7x")

@@ -43,8 +43,6 @@ func _process(delta):
 		if player_input.length() > 0:
 			time_since_last_fog_update = 0.0
 			update_fog(Player.position)
-
-### If you want to stick to mouse
-### make sure you add optimizations here
-#func _input(event):
-#	update_fog(get_node("player").position)
+	
+	if $NavigationRegion2D/Solids/House/EnterHouse.overlaps_body(get_node("Player")):
+		get_tree().change_scene_to_file("res://Scenes/in_house.tscn")

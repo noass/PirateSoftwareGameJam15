@@ -1,0 +1,97 @@
+[gd_scene load_steps=11 format=3 uid="uid://3yq0kovwmlpw"]
+
+[ext_resource type="Script" path="res://Scripts/in_house.gd" id="1_csw40"]
+[ext_resource type="Texture2D" uid="uid://dnwncdxp3h8ae" path="res://Sprites/in_house.png" id="1_dy4i4"]
+[ext_resource type="PackedScene" uid="uid://bjaid4vbt3ref" path="res://Scenes/player.tscn" id="2_85i34"]
+[ext_resource type="Shader" path="res://Shaders/god_ray.gdshader" id="3_xmwke"]
+[ext_resource type="Texture2D" uid="uid://dgi12rb3jrnx" path="res://Sprites/light1.png" id="4_3txlu"]
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_q1tdx"]
+polygon = PackedVector2Array(128, 168, 128, 192, -44.8, 192, -44.8, 166.4, 0, 168)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_inb3x"]
+polygon = PackedVector2Array(192, 168, 192, 192, 372.8, 192, 372.8, 166.4, 336, 168)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ujxuo"]
+polygon = PackedVector2Array(-1.99998, 31.2, -0.399979, 30.8, 1.20001, 29.2, 1.20001, 22.4, -0.799988, 21.6, -2.79999, 21.2, -5.19998, 20.8, -7.59999, 21.2, -9.59999, 21.6, -11.6, 22.4, -11.6, 29.2, -9.59999, 30.8, -7.59999, 31.2)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rjwri"]
+shader = ExtResource("3_xmwke")
+shader_parameter/angle = 2.9
+shader_parameter/position = 1.035
+shader_parameter/spread = 0.515
+shader_parameter/cutoff = 0.05
+shader_parameter/falloff = 0.795
+shader_parameter/edge_fade = 0.19
+shader_parameter/speed = 1.11
+shader_parameter/ray1_density = 8.0
+shader_parameter/ray2_density = 30.0
+shader_parameter/ray2_intensity = 0.3
+shader_parameter/color = Color(1, 0.901961, 0.65098, 0.262745)
+shader_parameter/hdr = true
+shader_parameter/seed = 23.28
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0tnpf"]
+size = Vector2(64, 29.2)
+
+[node name="InHouse" type="Node2D"]
+scale = Vector2(2.5, 2.5)
+script = ExtResource("1_csw40")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+z_index = -1
+position = Vector2(168, 84)
+scale = Vector2(1.3125, 1.3125)
+texture = ExtResource("1_dy4i4")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D"]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Sprite2D/StaticBody2D"]
+y_sort_enabled = true
+polygon = PackedVector2Array(-30.4762, 64, -128, 64, -128, 24.381, -112.762, 24.381, -112.762, 18.2857, -112.152, -5.48571, -128, -5.48571, -128, -64, 128, -64, 128, 64, 18.2857, 64, 18.2857, 82.2857, 155.429, 82.2857, 155.429, -91.4286, -161.524, -91.4286, -161.524, 82.2857, -30.4762, 82.2857)
+
+[node name="CollisionPolygon2D2" type="CollisionPolygon2D" parent="Sprite2D/StaticBody2D"]
+polygon = PackedVector2Array(-121.905, -64, -121.905, -39.619, -70.0952, -39.619, -73.1429, -64)
+
+[node name="CollisionPolygon2D3" type="CollisionPolygon2D" parent="Sprite2D/StaticBody2D"]
+y_sort_enabled = true
+polygon = PackedVector2Array(73.1429, -30.4762, 128, -30.4762, 128, -42.6667, 76.1905, -39.619)
+
+[node name="Camera2D" type="Camera2D" parent="."]
+position = Vector2(164, 88)
+zoom = Vector2(1.33, 1.33)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_q1tdx")
+
+[node name="LightOccluder2D2" type="LightOccluder2D" parent="."]
+occluder = SubResource("OccluderPolygon2D_inb3x")
+
+[node name="Player" parent="." instance=ExtResource("2_85i34")]
+position = Vector2(164, 128)
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Player"]
+occluder = SubResource("OccluderPolygon2D_ujxuo")
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(160, 185.6)
+energy = 0.05
+shadow_enabled = true
+shadow_filter = 2
+shadow_filter_smooth = 2.5
+texture = ExtResource("4_3txlu")
+texture_scale = 3.7
+
+[node name="GodRay" type="ColorRect" parent="."]
+material = SubResource("ShaderMaterial_rjwri")
+offset_left = 240.0
+offset_top = 168.0
+offset_right = 400.0
+offset_bottom = 328.0
+rotation = 3.14159
+
+[node name="ExitHouse" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="ExitHouse"]
+position = Vector2(160, 185.6)
+shape = SubResource("RectangleShape2D_0tnpf")

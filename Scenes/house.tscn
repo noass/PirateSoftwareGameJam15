@@ -1,0 +1,30 @@
+[gd_scene load_steps=4 format=3 uid="uid://b3fj8h5pf0rjl"]
+
+[ext_resource type="Texture2D" uid="uid://c03kilw1tdmgd" path="res://Sprites/sigma_wizard_house.png" id="1_wywn8"]
+[ext_resource type="PackedScene" uid="uid://kaqdvuaks3ve" path="res://Scenes/shadow.tscn" id="2_kwlb4"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_rtlfc"]
+size = Vector2(20, 17)
+
+[node name="House" type="Sprite2D"]
+y_sort_enabled = true
+texture = ExtResource("1_wywn8")
+offset = Vector2(0, -33.18)
+
+[node name="Shadow" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("2_kwlb4")]
+sprite = NodePath("..")
+shadow_scale = 0.5
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="StaticBody2D"]
+position = Vector2(-4, -25)
+polygon = PackedVector2Array(-45, 38, -31, 40, -1, 40, 14, 40, 43, 39, 56, 38, 54, 28, 53, 18, 24, 19, -6, 19, -16, 19, -28, 19, -44, 18, -43, 31)
+
+[node name="EnterHouse" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="EnterHouse"]
+position = Vector2(-1, 11)
+shape = SubResource("RectangleShape2D_rtlfc")
