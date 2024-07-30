@@ -1,16 +1,15 @@
-[gd_scene load_steps=11 format=3 uid="uid://3yq0kovwmlpw"]
+[gd_scene load_steps=10 format=3 uid="uid://3yq0kovwmlpw"]
 
-[ext_resource type="Script" path="res://Scripts/in_house.gd" id="1_csw40"]
 [ext_resource type="Texture2D" uid="uid://dnwncdxp3h8ae" path="res://Sprites/in_house.png" id="1_dy4i4"]
 [ext_resource type="PackedScene" uid="uid://bjaid4vbt3ref" path="res://Scenes/player.tscn" id="2_85i34"]
 [ext_resource type="Shader" path="res://Shaders/god_ray.gdshader" id="3_xmwke"]
 [ext_resource type="Texture2D" uid="uid://dgi12rb3jrnx" path="res://Sprites/light1.png" id="4_3txlu"]
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_q1tdx"]
-polygon = PackedVector2Array(128, 168, 128, 192, -44.8, 192, -44.8, 166.4, 0, 168)
+polygon = PackedVector2Array(128, 168, 128, 259.2, -44.8, 259.2, -44.8, 168, 0, 168)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_inb3x"]
-polygon = PackedVector2Array(192, 168, 192, 192, 372.8, 192, 372.8, 166.4, 336, 168)
+polygon = PackedVector2Array(192, 168, 192, 259.2, 372.8, 259.2, 372.8, 168, 336, 168)
 
 [sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_ujxuo"]
 polygon = PackedVector2Array(-1.99998, 31.2, -0.399979, 30.8, 1.20001, 29.2, 1.20001, 22.4, -0.799988, 21.6, -2.79999, 21.2, -5.19998, 20.8, -7.59999, 21.2, -9.59999, 21.6, -11.6, 22.4, -11.6, 29.2, -9.59999, 30.8, -7.59999, 31.2)
@@ -36,11 +35,18 @@ size = Vector2(64, 29.2)
 
 [node name="InHouse" type="Node2D"]
 scale = Vector2(2.5, 2.5)
-script = ExtResource("1_csw40")
+
+[node name="BG" type="ColorRect" parent="."]
+z_index = -1
+offset_left = -152.0
+offset_top = -120.0
+offset_right = 504.0
+offset_bottom = 371.0
+color = Color(0, 0, 0, 1)
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 z_index = -1
-position = Vector2(168, 84)
+position = Vector2(168, 84.4)
 scale = Vector2(1.3125, 1.3125)
 texture = ExtResource("1_dy4i4")
 

@@ -6,13 +6,13 @@
 [ext_resource type="Shader" uid="uid://b6ehipwo7iqss" path="res://Shaders/damage_flash.tres" id="3_4p3gg"]
 [ext_resource type="Texture2D" uid="uid://b7dicn3qtcdds" path="res://Sprites/playerAnimt.png" id="3_b7w5q"]
 [ext_resource type="PackedScene" uid="uid://kaqdvuaks3ve" path="res://Scenes/shadow.tscn" id="4_f5tu7"]
+[ext_resource type="Shader" path="res://Shaders/silhouette.gdshader" id="4_mojxy"]
 [ext_resource type="Texture2D" uid="uid://dgne5kn683lgg" path="res://Sprites/bow_hands.png" id="5_mhsy8"]
 [ext_resource type="Texture2D" uid="uid://bba2t6hs88v8r" path="res://Sprites/other_hand.png" id="5_mjf80"]
 [ext_resource type="Shader" path="res://Shaders/vignette.gdshader" id="6_bfaih"]
 [ext_resource type="Script" path="res://Scripts/AimLine.gd" id="7_l0xbb"]
 [ext_resource type="Theme" uid="uid://b14htjma85o0x" path="res://default_theme.tres" id="8_krui2"]
 [ext_resource type="Shader" path="res://Shaders/distort_filter.gdshader" id="8_rcjy6"]
-[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="9_85027"]
 [ext_resource type="Texture2D" uid="uid://cmlkj6snwq4oc" path="res://Sprites/hp_bar.png" id="9_f5pgl"]
 [ext_resource type="Shader" path="res://Shaders/noise.gdshader" id="10_7kd1f"]
 [ext_resource type="Shader" path="res://Shaders/drop_shadow.gdshader" id="11_w747l"]
@@ -22,15 +22,6 @@
 [ext_resource type="AudioStream" uid="uid://clokrif675cjk" path="res://Audio/Sounds/player_death.wav" id="20_eo2qx"]
 [ext_resource type="AudioStream" uid="uid://dghwqo30g8qwi" path="res://Audio/Sounds/bow_shoot.wav" id="21_bke6g"]
 [ext_resource type="AudioStream" uid="uid://bvo05jc1miron" path="res://Audio/Music/death_song.wav" id="22_gehas"]
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_3cxxl"]
-shader = ExtResource("9_85027")
-shader_parameter/color = Color(1, 1, 1, 0.152941)
-shader_parameter/width = 1.0
-shader_parameter/pattern = 0
-shader_parameter/inside = false
-shader_parameter/add_margins = true
-shader_parameter/number_of_images = Vector2(1, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jskx0"]
 resource_local_to_scene = true
@@ -76,6 +67,11 @@ _data = {
 "CHARGING_BOW": SubResource("Animation_dlfi6"),
 "RESET": SubResource("Animation_gh01o")
 }
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3cxxl"]
+shader = ExtResource("4_mojxy")
+shader_parameter/silhouette_color = Color(0, 0, 0, 0.5)
+shader_parameter/flash_active = false
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_3q7ug"]
 radius = 8.6
@@ -233,7 +229,7 @@ _data = {
 }
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_dnyfx"]
-size = Vector2(31, 38)
+size = Vector2(36, 49)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_qanra"]
 shader = ExtResource("6_bfaih")
@@ -307,21 +303,16 @@ target = NodePath("..")
 
 [node name="PlayerSprites" type="Node2D" parent="Smoothing2D"]
 
-[node name="SilhouetteSprite" type="Sprite2D" parent="Smoothing2D/PlayerSprites"]
-material = SubResource("ShaderMaterial_3cxxl")
-texture = ExtResource("3_b7w5q")
-hframes = 22
-
-[node name="Sprite2D" type="Sprite2D" parent="Smoothing2D/PlayerSprites"]
-material = SubResource("ShaderMaterial_jskx0")
-texture = ExtResource("3_b7w5q")
-hframes = 37
-
 [node name="OtherHand" type="Sprite2D" parent="Smoothing2D/PlayerSprites"]
 visible = false
 position = Vector2(-2, -7)
 texture = ExtResource("5_mjf80")
 offset = Vector2(12, 0)
+
+[node name="Sprite2D" type="Sprite2D" parent="Smoothing2D/PlayerSprites"]
+material = SubResource("ShaderMaterial_jskx0")
+texture = ExtResource("3_b7w5q")
+hframes = 37
 
 [node name="BowOnly" type="Sprite2D" parent="Smoothing2D/PlayerSprites"]
 visible = false
@@ -348,6 +339,13 @@ script = ExtResource("7_l0xbb")
 position = Vector2(0, 48)
 sprite = NodePath("../PlayerSprites/Sprite2D")
 
+[node name="SilhouetteSprite" type="Sprite2D" parent="Smoothing2D"]
+visible = false
+z_index = 100
+material = SubResource("ShaderMaterial_3cxxl")
+texture = ExtResource("3_b7w5q")
+hframes = 22
+
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 8)
 shape = SubResource("CapsuleShape2D_3q7ug")
@@ -363,7 +361,7 @@ libraries = {
 speed_scale = 8.0
 
 [node name="AttackRange" type="Area2D" parent="."]
-position = Vector2(15.5, 7.5)
+position = Vector2(18, 7.5)
 collision_layer = 3
 collision_mask = 3
 metadata/_edit_group_ = true

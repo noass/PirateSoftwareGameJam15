@@ -1,0 +1,44 @@
+[gd_scene load_steps=7 format=3 uid="uid://dycdbkvml528i"]
+
+[ext_resource type="Texture2D" uid="uid://c84opjgkjoutt" path="res://Sprites/arrow.png" id="1_6yomc"]
+[ext_resource type="Shader" path="res://Shaders/outline.gdshader" id="1_nop6d"]
+[ext_resource type="Script" path="res://Scripts/arrow.gd" id="2_wgicq"]
+[ext_resource type="PackedScene" uid="uid://kaqdvuaks3ve" path="res://Scenes/shadow.tscn" id="3_2x7rv"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ipetv"]
+shader = ExtResource("1_nop6d")
+shader_parameter/color = Color(0, 0, 0, 1)
+shader_parameter/width = 1.0
+shader_parameter/pattern = 0
+shader_parameter/inside = false
+shader_parameter/add_margins = true
+shader_parameter/number_of_images = Vector2(1, 1)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h6nes"]
+size = Vector2(22, 10)
+
+[node name="Arrow" type="Sprite2D"]
+y_sort_enabled = true
+material = SubResource("ShaderMaterial_ipetv")
+texture = ExtResource("1_6yomc")
+offset = Vector2(3.5, -0.5)
+script = ExtResource("2_wgicq")
+arrow_speed = 500.0
+
+[node name="HitDetect" type="Area2D" parent="."]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetect"]
+shape = SubResource("RectangleShape2D_h6nes")
+
+[node name="Shadow" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("3_2x7rv")]
+visible = false
+sprite = NodePath("..")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -2.38419e-07)
+scale = Vector2(1, 0.4)
+
+[connection signal="body_entered" from="HitDetect" to="." method="_on_hit_detect_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

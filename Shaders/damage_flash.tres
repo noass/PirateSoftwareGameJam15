@@ -1,0 +1,32 @@
+[gd_resource type="Shader" format=3 uid="uid://b6ehipwo7iqss"]
+
+[resource]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+render_mode unshaded;
+
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture;
+uniform vec4 flash_color : source_color = vec4(1.0, 0.0, 0.0, 1.0); // Default red flash color
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0; // Flash intensity
+uniform vec4 silhouette_color : source_color = vec4(0.0, 0.0, 0.0, 0.5); // Silhouette color
+
+void fragment() {
+    vec4 sprite_color = texture(TEXTURE, UV);
+    
+    if (flash_modifier > 0.0) {
+        // Apply flash effect
+        sprite_color.rgb = mix(sprite_color.rgb, flash_color.rgb, flash_modifier);
+    } else {
+        vec4 screen_color = texture(SCREEN_TEXTURE, SCREEN_UV);
+        
+        // Apply silhouette effect only if flash is not active
+        if (all(lessThan(abs(sprite_color - screen_color), vec4(0.01)))) {
+            COLOR = sprite_color;
+        } else {
+            COLOR = vec4(silhouette_color.rgb, silhouette_color.a * sprite_color.a);
+        }
+    }
+
+    COLOR = sprite_color;
+}
+"

@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://b20gqjh0n6i77"]
+
+[ext_resource type="Script" path="res://Scripts/blood_particles.gd" id="1_1k5cp"]
+[ext_resource type="AudioStream" uid="uid://caakhi3hwutuj" path="res://Audio/Sounds/floating_enemy_projectile_destroy.wav" id="1_5u5rq"]
+
+[sub_resource type="Curve" id="Curve_sm2kf"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="CurveTexture" id="CurveTexture_xvnfw"]
+curve = SubResource("Curve_sm2kf")
+
+[sub_resource type="Gradient" id="Gradient_ik2mu"]
+offsets = PackedFloat32Array(0.232472, 0.830258)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_hls12"]
+gradient = SubResource("Gradient_ik2mu")
+
+[sub_resource type="ParticleProcessMaterial" id="ParticleProcessMaterial_mkclq"]
+lifetime_randomness = 1.0
+particle_flag_disable_z = true
+emission_shape_scale = Vector3(5, 5, 5)
+emission_shape = 1
+emission_sphere_radius = 1.79
+spread = 180.0
+initial_velocity_min = 24.54
+initial_velocity_max = 30.68
+gravity = Vector3(0, 98, 0)
+linear_accel_min = -23.31
+linear_accel_max = 18.4
+radial_accel_min = 100.0
+radial_accel_max = 100.0
+tangential_accel_min = 19.02
+tangential_accel_max = 50.91
+scale_min = 1.8
+scale_max = 2.5
+color = Color(0, 0, 0, 1)
+color_initial_ramp = SubResource("GradientTexture1D_hls12")
+alpha_curve = SubResource("CurveTexture_xvnfw")
+hue_variation_min = -1.0
+hue_variation_max = 1.0
+turbulence_noise_strength = 20.0
+turbulence_noise_scale = 10.0
+
+[node name="BloodParticles" type="GPUParticles2D"]
+emitting = false
+amount = 126
+process_material = SubResource("ParticleProcessMaterial_mkclq")
+lifetime = 1.2
+one_shot = true
+speed_scale = 2.19
+explosiveness = 0.92
+randomness = 1.0
+trail_enabled = true
+trail_lifetime = 0.05
+script = ExtResource("1_1k5cp")
+
+[node name="Hit" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("1_5u5rq")
+volume_db = -20.0
+
+[connection signal="finished" from="." to="." method="_on_finished"]

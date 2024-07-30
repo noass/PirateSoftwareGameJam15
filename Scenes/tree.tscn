@@ -6,6 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://kaqdvuaks3ve" path="res://Scenes/shadow.tscn" id="4_3cvqy"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_028oa"]
+resource_local_to_scene = true
 shader = ExtResource("1_naml8")
 shader_parameter/speed = 1.045
 shader_parameter/minStrength = 0.18
@@ -31,7 +32,6 @@ script = ExtResource("3_5ssd8")
 scale = Vector2(1, 1)
 texture = ExtResource("1_gt0sl")
 sprite = NodePath("..")
-shadow_scale = 0.5
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 3

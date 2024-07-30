@@ -1,0 +1,70 @@
+[gd_scene load_steps=7 format=3 uid="uid://dcurskcrlilb8"]
+
+[ext_resource type="Texture2D" uid="uid://imls5iwi8xsj" path="res://Sprites/floating_enemy_projectile.png" id="1_nxnld"]
+[ext_resource type="Script" path="res://Scripts/floating_enemy_projectile.gd" id="2_lxab3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_p26ru"]
+size = Vector2(24, 19)
+
+[sub_resource type="Animation" id="Animation_nufwg"]
+resource_name = "IDLE"
+loop_mode = 1
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [0, 1]
+}
+
+[sub_resource type="Animation" id="Animation_pvyh8"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5vecn"]
+_data = {
+"IDLE": SubResource("Animation_nufwg"),
+"RESET": SubResource("Animation_pvyh8")
+}
+
+[node name="FloatingEnemyProjectile" type="Sprite2D"]
+texture = ExtResource("1_nxnld")
+hframes = 2
+script = ExtResource("2_lxab3")
+
+[node name="HitDetect" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitDetect"]
+position = Vector2(-2, -0.5)
+shape = SubResource("RectangleShape2D_p26ru")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5vecn")
+}
+autoplay = "IDLE"
+speed_scale = 3.0
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(1, 0.7)
+
+[connection signal="body_entered" from="HitDetect" to="." method="_on_hit_detect_body_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]

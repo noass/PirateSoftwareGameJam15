@@ -13,7 +13,6 @@ offset = Vector2(0, -33.18)
 
 [node name="Shadow" parent="." node_paths=PackedStringArray("sprite") instance=ExtResource("2_kwlb4")]
 sprite = NodePath("..")
-shadow_scale = 0.5
 
 [node name="StaticBody2D" type="StaticBody2D" parent="."]
 collision_layer = 3
